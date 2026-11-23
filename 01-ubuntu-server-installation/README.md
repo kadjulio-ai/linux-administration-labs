@@ -63,11 +63,19 @@ This lab is the first step of a larger learning path covering:
 - Graphics Controller: VMSVGA
 - Video Memory: 16 MB
 
+The following screenshot shows the initial VirtualBox configuration, including hardware and storage.
+
+![VirtualBox VM Overview](screenshots/vm-hardware.png)
+
 ## Storage
 
 - Virtual Disk: 25 GB
 - Dynamically Allocated
 - SATA Controller
+
+A 25 GB virtual disk was created using the VDI format with dynamic allocation enabled.
+
+![Virtual Disk Configuration](screenshots/virtualbox-virtual-disk.png)
 
 ## Network
 
@@ -247,6 +255,30 @@ This confirmed that Ubuntu Server was successfully installed and running inside 
 
 ---
 
+
+## Package Management
+
+After successfully booting Ubuntu Server, I checked
+the available package updates.
+
+The following commands were executed:
+
+```bash
+sudo apt update
+apt list --upgradable
+```
+
+The first command refreshed the package lists from the configured Ubuntu repositories.
+
+The second command displayed the packages with available updates.
+
+The output showed 29 packages available for upgrade.
+
+![Ubuntu Package Updates](screenshots/ubuntu-package-update.png)
+
+This exercise introduced basic package management using APT.
+
+
 ## Troubleshooting
 
 ## Installation Media
@@ -281,7 +313,27 @@ No permanent changes were made.
 
 The default boot entry was used afterwards.
 
+![GRUB Editor](screenshots/grub-editor.png)
 ---
+
+## Post-Installation Configuration
+
+During the installation, the following settings were used:
+
+- Initial hostname: `ubuntu-lab`
+- Initial username: `kate`
+
+After installation, I practiced basic Linux administration commands and changed the system configuration.
+
+The later screenshots show:
+
+- Hostname: `Ubuntu2404`
+- Username: `vboxuser`
+
+These changes were made as part of my Linux administration practice.
+
+The screenshots therefore reflect different stages of the laboratory.
+
 
 # Concepts Learned
 
