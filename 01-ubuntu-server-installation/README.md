@@ -313,7 +313,7 @@ No permanent changes were made.
 
 The default boot entry was used afterwards.
 
-![GRUB Editor](screenshots/grub-editor.png)
+![Grub Editor](screenshots/grub-editor.png)
 ---
 
 ## Post-Installation Configuration
