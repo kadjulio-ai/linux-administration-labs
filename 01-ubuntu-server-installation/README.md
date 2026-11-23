@@ -116,30 +116,26 @@ Reasons:
 
 ---
 
-# Network Configuration
+## Network Configuration
 
-Network interface detected:
+The Ubuntu Server network interface was configured using DHCP.
 
-```
-enp0s3
-```
+**Network interface:** `enp0s3`
 
-Configuration:
+**Configuration:**
+- Network mode: NAT (VirtualBox)
+- IP assignment: DHCP
+- Assigned IP address: `10.0.2.15/24`
 
-- DHCP
-- NAT (VirtualBox)
+The following screenshot shows the network interface and the IP address assigned during installation.
 
-Assigned IP during installation:
-
-```
-10.0.2.15/24
-```
+![Ubuntu Server DHCP Configuration](screenshots/ubuntu-network-dhcp.png)
 
 ### Why NAT?
 
-NAT allows the virtual machine to access the Internet without modifying the physical network.
+NAT allows the virtual machine to access the Internet through the host computer without requiring changes to the physical network.
 
-This configuration is ideal for laboratory environments.
+This configuration is suitable for an isolated learning environment.
 
 ---
 
@@ -191,21 +187,18 @@ LVM provides:
 
 ---
 
-# Profile Configuration
+## Profile Configuration
 
-Hostname:
+During installation, the following user profile was configured:
 
-```
-ubuntu-lab
-```
+- Display name: Kate
+- Hostname: `ubuntu-lab`
+- Username: `kate`
+- Administrative privileges: sudo
 
-Administrator user:
+The user account was created to perform system administration tasks without logging in directly as root.
 
-```
-<your_username>
-```
-
----
+![Ubuntu Server Profile Configuration](screenshots/ubuntu-profile-configuration.png)
 
 # SSH Configuration
 
@@ -231,9 +224,30 @@ Reason:
 
 Each service (Docker, Apache, Nginx, etc.) will be installed manually during future labs to better understand installation and configuration processes.
 
+
 ---
 
-# Troubleshooting
+## Installation Verification
+
+After completing the installation, I successfully booted Ubuntu Server and logged into the system.
+
+I executed the `hostnamectl` command to verify the operating system and virtualization environment.
+
+The output confirmed:
+
+- Operating System: Ubuntu 24.04.4 LTS
+- Kernel: Linux 6.8.0-134-generic
+- Architecture: x86-64
+- Virtualization: Oracle VirtualBox
+- Hostname: Ubuntu2404
+
+![Ubuntu Server System Information](screenshots/ubuntu-system-information.png)
+
+This confirmed that Ubuntu Server was successfully installed and running inside the VirtualBox virtual machine.
+
+---
+
+## Troubleshooting
 
 ## Installation Media
 
