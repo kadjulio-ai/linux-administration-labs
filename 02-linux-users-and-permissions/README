@@ -1,0 +1,283 @@
+# Lab 02 — Linux User Management and Shared Directories
+
+## Overview
+
+This lab focuses on Linux user and group administration, directory ownership, access permissions, and shared directory management in Ubuntu Server.
+
+A fictitious company scenario was used to simulate two departments, Finance and IT, with restricted access to their respective shared directories.
+
+## Objectives
+
+- Create and manage Linux users.
+- Create and manage groups.
+- Assign users to specific groups.
+- Create shared directories.
+- Configure directory ownership and permissions.
+- Apply the SGID bit to shared directories.
+- Configure and verify access restrictions between departments.
+- Test collaborative file access within the same group.
+- Understand the role of `umask` in file creation permissions.
+
+## Environment
+
+- **Operating System:** Ubuntu Server 24.04
+- **Virtualization:** Oracle VirtualBox
+- **Shell:** Bash
+
+## Scenario
+
+The simulated company has two departments:
+
+| Department | Users | Shared Directory |
+|---|---|---|
+| Finance | alice, bob | `/srv/finance` |
+| IT | charlie, david | `/srv/it` |
+
+Each department has its own shared directory. Users can access the directory assigned to their department, while access from the other department is restricted.
+
+## 1. Group Creation
+
+Two groups were created to organize users by department.
+
+```bash
+sudo groupadd finance
+sudo groupadd it
+```
+
+Group verification:
+
+```bash
+getent group finance
+getent group it
+```
+
+![Group creation](screenshots/group-creation.png)
+
+## 2. User Creation
+
+Four users were created to represent the employees in the simulated company.
+
+```bash
+sudo adduser alice
+sudo adduser bob
+sudo adduser charlie
+sudo adduser david
+```
+
+User verification:
+
+```bash
+getent passwd alice bob charlie david
+```
+
+![User creation](screenshots/user-creation.png)
+
+## 3. Group Membership Configuration
+
+Users were assigned to their respective departmental groups.
+
+```bash
+sudo usermod -aG finance alice
+sudo usermod -aG finance bob
+
+sudo usermod -aG it charlie
+sudo usermod -aG it david
+```
+
+Membership verification:
+
+```bash
+id alice
+id bob
+id charlie
+id david
+```
+
+![Group membership](screenshots/group-membership.png)
+
+## 4. Shared Directory Creation
+
+Shared directories were created under `/srv`, which is commonly used to store data provided by system services.
+
+```bash
+sudo mkdir /srv/finance
+sudo mkdir /srv/it
+```
+
+![Shared directories](screenshots/shared-directories.png)
+
+## 5. Directory Ownership Configuration
+
+The directories were assigned to the root user and their respective departmental groups.
+
+```bash
+sudo chown root:finance /srv/finance
+sudo chown root:it /srv/it
+```
+
+Ownership verification:
+
+```bash
+ls -ld /srv/finance /srv/it
+```
+
+![Directory ownership](screenshots/directory-ownership.png)
+
+## 6. Directory Permissions
+
+Permissions were configured using `chmod 770`.
+
+```bash
+sudo chmod 770 /srv/finance
+sudo chmod 770 /srv/it
+```
+
+The `770` permission mode grants read, write, and execute permissions to the directory owner and group, while denying access to other users.
+
+| Permission | Owner | Group | Others |
+|---|---|---|---|
+| `770` | `rwx` | `rwx` | `---` |
+
+![Directory permissions](screenshots/directory-permissions.png)
+
+## 7. SGID Configuration
+
+The SGID bit was enabled on both shared directories.
+
+```bash
+sudo chmod g+s /srv/finance
+sudo chmod g+s /srv/it
+```
+
+Verification:
+
+```bash
+ls -ld /srv/finance /srv/it
+```
+
+The SGID bit ensures that newly created files and subdirectories inherit the group ownership of the parent directory.
+
+The expected permission representation is:
+
+```text
+drwxrws---
+```
+
+![SGID configuration](screenshots/sgid-configuration.png)
+
+## 8. Access and Collaboration Tests
+
+### 8.1 Finance Department
+
+Alice and Bob were tested as members of the Finance group.
+
+Alice created a file:
+
+```bash
+sudo su - alice
+touch /srv/finance/alice-file.txt
+exit
+```
+
+Bob created another file:
+
+```bash
+sudo su - bob
+touch /srv/finance/bob-file.txt
+exit
+```
+
+Both users were able to create files inside the Finance shared directory.
+
+### 8.2 IT Department Access Restriction
+
+Charlie was tested against the Finance directory.
+
+```bash
+sudo su - charlie
+ls /srv/finance
+touch /srv/finance/charlie-test.txt
+exit
+```
+
+Access was denied, confirming that a user belonging to the IT group could not access the Finance directory.
+
+### 8.3 Finance Department Access Restriction
+
+Alice was tested against the IT directory.
+
+```bash
+sudo su - alice
+ls /srv/it
+touch /srv/it/alice-test.txt
+exit
+```
+
+Access was denied, confirming that the Finance group could not access the IT directory.
+
+![Department isolation](screenshots/department-isolation.png)
+
+## 9. File Permissions and umask
+
+The `umask` value was checked during the file permission tests.
+
+```bash
+umask
+```
+
+The observed value was:
+
+```text
+002
+```
+
+The `umask` affects the permissions assigned to newly created files and directories by removing permissions from the default creation mode.
+
+With a `umask` of `002`, the typical resulting permissions are:
+
+| Object | Default Mode | umask | Result |
+|---|---|---|---|
+| File | `666` | `002` | `664` |
+| Directory | `777` | `002` | `775` |
+
+The SGID bit and the group permissions allowed users in the Finance group to collaborate on files within the shared directory.
+
+### Collaboration Test
+
+Alice appended text to a file created by Bob.
+
+```bash
+echo "File edited by Alice" >> /srv/finance/bob-file.txt
+```
+
+The file contents were verified using:
+
+```bash
+cat /srv/finance/bob-file.txt
+```
+
+The operation was successful, demonstrating collaborative file access between users belonging to the same group.
+
+![Shared file collaboration](screenshots/shared-file-collaboration.png)
+
+## Key Concepts Learned
+
+- Linux user administration using `adduser`.
+- Group management using `groupadd` and `usermod`.
+- User and group verification using `id` and `getent`.
+- Directory ownership management using `chown`.
+- Access permission management using `chmod`.
+- Numeric permission notation (`770`).
+- SGID and group inheritance in shared directories.
+- Linux directory access restrictions.
+- File creation permissions and `umask`.
+- Collaborative file access in a group-based environment.
+- Practical testing of Linux security and access control.
+
+## Conclusion
+
+This lab demonstrated how Linux users, groups, ownership, and permissions can be used to organize a multi-user environment and enforce access restrictions.
+
+The configuration allowed members of the same department to collaborate within shared directories while preventing users from accessing resources belonging to the other department.
+
+The lab also demonstrated how SGID and `umask` influence group ownership and file permissions in shared environments.
