@@ -121,7 +121,7 @@ Ownership verification:
 ls -ld /srv/finance /srv/it
 ```
 
-![Directory ownership](screenshots/directory-ownership.png)
+![Directory ownership](screenshots/group-owner.png)
 
 ## 6. Directory Permissions
 
