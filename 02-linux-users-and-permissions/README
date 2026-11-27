@@ -104,7 +104,7 @@ sudo mkdir /srv/finance
 sudo mkdir /srv/it
 ```
 
-![Shared directories](screenshots/shared-directories.png)
+![Directories creation](screenshots/directories-creation.png)
 
 ## 5. Directory Ownership Configuration
 
