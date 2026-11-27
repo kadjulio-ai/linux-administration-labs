@@ -138,7 +138,7 @@ The `770` permission mode grants read, write, and execute permissions to the dir
 |---|---|---|---|
 | `770` | `rwx` | `rwx` | `---` |
 
-![Directory permissions](screenshots/directory-permissions.png)
+![Directory permissions](screenshots/permissions-sgid.png)
 
 ## 7. SGID Configuration
 
@@ -163,7 +163,7 @@ The expected permission representation is:
 drwxrws---
 ```
 
-![SGID configuration](screenshots/sgid-configuration.png)
+![SGID configuration](screenshots/permissions-sgid.png)
 
 ## 8. Access and Collaboration Tests
 
