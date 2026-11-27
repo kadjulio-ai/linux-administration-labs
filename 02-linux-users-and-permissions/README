@@ -51,7 +51,7 @@ getent group finance
 getent group it
 ```
 
-![Group creation](screenshots/group-creation.png)
+![Group creation](screenshots/linux-group-creation.png)
 
 ## 2. User Creation
 
@@ -70,7 +70,7 @@ User verification:
 getent passwd alice bob charlie david
 ```
 
-![User creation](screenshots/user-creation.png)
+![User creation](screenshots/linux-user-creation.png)
 
 ## 3. Group Membership Configuration
 
@@ -93,7 +93,7 @@ id charlie
 id david
 ```
 
-![Group membership](screenshots/group-membership.png)
+![Group membership](screenshots/linux-group-membership.png)
 
 ## 4. Shared Directory Creation
 
